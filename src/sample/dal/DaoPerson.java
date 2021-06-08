@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface DaoPerson <T>{
-    ArrayList<T> getALlPersons() throws SQLException;
+    ArrayList<T> getALlPersons();
 
     boolean updatePerson(Person item);
 }
+
+

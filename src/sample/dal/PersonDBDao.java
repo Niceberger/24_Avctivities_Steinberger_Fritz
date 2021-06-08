@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonDBDao implements DaoPerson
+public class PersonDBDao implements DaoPerson<Person>
 {
     @Override
     public ArrayList<Person> getALlPerson() throws SQLException {
