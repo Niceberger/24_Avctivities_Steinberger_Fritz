@@ -2,17 +2,24 @@ package sample.dal;
 
 import sample.bll.Person;
 
+import java.sql.Array;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class PersonDBDao {
+public class PersonDBDao implements DaoPerson
+{
     @Override
-    public List<Person> getALlPerson() throws SQLException {
-        return DatabaseManager.getInstance().getAllPersons();
+    public ArrayList<Person> getALlPerson() throws SQLException {
+        return (ArrayList<Person>) DatabaseManager.getInstance().getAllPersons();
     }
 
     @Override
     public boolean updatePerson(Person item) {
         return DatabaseManager.getInstance().updatePerson(item);
     }
+
+
+
+
 }

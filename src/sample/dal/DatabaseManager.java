@@ -19,7 +19,7 @@ public class DatabaseManager {
 
     private DatabaseManager(){
         PropertyManager.getInstance().setFilename("db.properties");
-        this.driver = PropertyManager.getInstance().readProperty("driver", "\"oracle.jdbc.OracleDriver\";");
+        this.driver = PropertyManager.getInstance().readProperty("driver", "oracle.jdbc.OracleDriver");
         this.url = PropertyManager.getInstance().readProperty("url", "jdbc:oracle:thin:@tcif.htl-villach.at:1521/orcl");
         this.username = PropertyManager.getInstance().readProperty("username","d3a19");
         this.password = PropertyManager.getInstance().readProperty("password","d3a19");;
@@ -63,14 +63,14 @@ public class DatabaseManager {
 
             }
         }catch(SQLException throwables){
-            throw throwables;
+            System.out.println(throwables);
         }
 
 
         return seasonArrayList;
     }
 
-    public List<Activity> getAllActivitys() throws SQLException {
+    public List<Activity> getAllActivitys()  {
         ArrayList<Activity> activityArrayList = new ArrayList<>();
         Statement stmt;
         ResultSet resultSet;
@@ -85,13 +85,13 @@ public class DatabaseManager {
 
             }
         }catch(SQLException throwables){
-            throw throwables;
+            System.out.println(throwables);
         }
 
 
         return activityArrayList;
     }
-    public List<Person> getAllPersons() throws SQLException {
+    public List<Person> getAllPersons() {
         ArrayList<Person> personArrayList = new ArrayList<>();
         Statement stmt;
         ResultSet resultSet;
@@ -106,7 +106,7 @@ public class DatabaseManager {
 
             }
         }catch(SQLException throwables){
-            throw throwables;
+            System.out.println(throwables);
         }
 
 
@@ -130,7 +130,7 @@ public class DatabaseManager {
             }
         }
         catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.println(throwables);
         }
         return result;
     }
