@@ -4,10 +4,13 @@ import com.sun.org.apache.xerces.internal.impl.PropertyManager;
 import sample.bll.Activity;
 import sample.bll.Person;
 import sample.bll.Season;
+import sample.util.ProbertyManager;
 
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class DatabaseManager {
@@ -16,13 +19,14 @@ public class DatabaseManager {
     private String username;
     private String password;
     private static DatabaseManager instance;
+ //   private HashMap<Integer,Season> seasons = null;
 
     private DatabaseManager(){
-        PropertyManager.getInstance().setFilename("db.properties");
-        this.driver = PropertyManager.getInstance().readProperty("driver", "oracle.jdbc.OracleDriver");
-        this.url = PropertyManager.getInstance().readProperty("url", "jdbc:oracle:thin:@tcif.htl-villach.at:1521/orcl");
-        this.username = PropertyManager.getInstance().readProperty("username","d3a19");
-        this.password = PropertyManager.getInstance().readProperty("password","d3a19");;
+        ProbertyManager.getInstance().setFilename("db.properties");
+        this.driver = ProbertyManager.getInstance().readProperty("driver", "oracle.jdbc.OracleDriver");
+        this.url = ProbertyManager.getInstance().readProperty("url", "jdbc:oracle:thin:@tcif.htl-villach.at:1521/orcl");
+        this.username = ProbertyManager.getInstance().readProperty("username","d3a19");
+        this.password = ProbertyManager.getInstance().readProperty("password","d3a19");;
 
     }
     private Connection createConnection() {
@@ -47,7 +51,7 @@ public class DatabaseManager {
         return instance;
     }
 
-
+ /*
     public List<Season> getAllSeasons() throws SQLException {
         ArrayList<Season> seasonArrayList = new ArrayList<>();
         Statement stmt;
@@ -70,6 +74,8 @@ public class DatabaseManager {
         return seasonArrayList;
     }
 
+
+  */
     public List<Activity> getAllActivitys()  {
         ArrayList<Activity> activityArrayList = new ArrayList<>();
         Statement stmt;
@@ -134,4 +140,47 @@ public class DatabaseManager {
         }
         return result;
     }
+    public boolean deletePerson(int id) {
+        boolean result = true;
+        PreparedStatement preparedStatement;
+        String stmt_update = "DELETE FROM person WHERE id = ?";
+        int numberrows = 0;
+        try( Connection con = this.createConnection()) {
+            preparedStatement = con.prepareStatement(stmt_update);
+            preparedStatement.setInt(1,id);
+            numberrows = preparedStatement.executeUpdate();
+            if(numberrows > 0) {
+                result = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return result;
+    }
+    public boolean insertPerson(Person p) {
+        boolean result = true;
+        PreparedStatement preparedStatement;
+        String stmt_insert = "INSERT INTO person(id,fristname,Lastname) VALUES (?,?,?)";
+        ResultSet resultSet;
+        int id = -1;
+
+        try (Connection con = this.createConnection()) {
+            preparedStatement = con.prepareStatement(stmt_insert,new String[] {"id"});
+            preparedStatement.setInt(1,p.getIdActivity());
+            preparedStatement.setString(2,p.getFirstname());
+            preparedStatement.setString(3,p.getLastname());
+            preparedStatement.execute();
+            resultSet = preparedStatement.getGeneratedKeys();
+            if(resultSet.next()) {
+                id = resultSet.getInt(1);
+                p.setId(id);
+                result = true;
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return  result;
+    }
+
 }

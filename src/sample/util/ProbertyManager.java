@@ -1,23 +1,21 @@
 package sample.util;
 
-import  sample.util.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-public class PropertyManager {
+public class ProbertyManager {
     // Singleton
     private String filename;
     private Properties properties = new Properties();
-    private static PropertyManager instance;
-    private Propertymanager() {
+    private static ProbertyManager instance;
+    private String fileName = "";
 
 
-    }
-    public static PropertyManager getInstance() {
+    public static ProbertyManager getInstance() {
         if(instance == null) {
-            instance = new PropertyManager();
+            instance = new ProbertyManager();
         }
         return instance;
     }

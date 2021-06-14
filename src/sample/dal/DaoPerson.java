@@ -7,9 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface DaoPerson <T>{
-    ArrayList<T> getALlPersons();
+    List<T> getALlPersons();
+    T getById(int id);
+    boolean insert(T item);
+    boolean delete (int id);
 
-    boolean updatePerson(Person item);
+    boolean updatePerson(T item);
 }
 
 
